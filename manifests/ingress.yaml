@@ -2,11 +2,12 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: nginx-ingress
+  namespace: test-argocd
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: / # 必須，用於根路徑處理
+    nginx.ingress.kubernetes.io/rewrite-target: / # 必须，用于根路径处理
 spec:
   rules:
-  - host: nginx.local # 替換為您想要的域名
+  - host: nginx.local # 替换为您想要的域名
     http:
       paths:
       - path: /
