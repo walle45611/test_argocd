@@ -2,8 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nginx-deployment
-  labels:
-    app: nginx
+  namespace: default
 spec:
   replicas: 2
   selector:
@@ -15,7 +14,7 @@ spec:
         app: nginx
     spec:
       containers:
-      - name: nginx
-        image: nginx:latest
-        ports:
-        - containerPort: 80
+        - name: nginx
+          image: ""  # 留空，GitHub Actions 每次填入镜像
+          ports:
+            - containerPort: 80
