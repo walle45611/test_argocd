@@ -10,43 +10,53 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 檢出代碼
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # 登錄 Docker Hub
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      # 設置 Docker 映像標籤
       - name: Set Docker image tag
         id: vars
         run: echo "::set-output name=sha_short::$(echo ${GITHUB_SHA} | cut -c1-7)"
 
+      # 構建 Docker 映像
       - name: Build Docker Image
+        working-directory: ./frontend
         run: |
           docker build -t ${{ secrets.DOCKER_USERNAME }}/custom-nginx:${{ steps.vars.outputs.sha_short }} .
 
+      # 推送 Docker 映像
       - name: Push Docker Image
         run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/custom-nginx:${{ steps.vars.outputs.sha_short }}
 
+      # 更新 Deployment YAML 文件中的鏡像名稱
       - name: Update Deployment YAML
         run: |
           sed -i 's|image: .*|image: '"${{ secrets.DOCKER_USERNAME }}/custom-nginx:${{ steps.vars.outputs.sha_short }}"'|' manifests/deployment.yaml
 
+      # Debug: 確認 YAML 是否更新成功
       - name: Debug YAML Update
         run: cat manifests/deployment.yaml
 
+      # 配置 Git 資訊
       - name: Set up Git config
         run: |
           git config user.name "walle45611"
           git config user.email "11146001@ntub.edu.tw"
 
+      # 提交並推送更改到 GitHub
       - name: Commit and Push changes
         run: |
           git add manifests/deployment.yaml
-          git commit -m "Update deployment image to ${{ secrets.DOCKER_USERNAME }}/custom-nginx:${{ steps.vars.outputs.sha_short }}"
+          git diff --cached --quiet || git commit -m "Update deployment image to ${{ secrets.DOCKER_USERNAME }}/custom-nginx:${{ steps.vars.outputs.sha_short }}"
           git push origin main || echo "No changes to commit"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
