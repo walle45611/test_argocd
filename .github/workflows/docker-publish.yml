@@ -39,7 +39,7 @@ jobs:
       # 填写 `image` 字段为空的 `deployment.yaml`
       - name: Update Deployment YAML
         run: |
-          sed -i 's|image: ""|image: '"${{ secrets.DOCKER_USERNAME }}/custom-nginx:${{ steps.vars.outputs.sha_short }}"'|g' manifests/deployment.yaml
+          sed -i '/container:/,/image:/ s|image: .*|image: '"${{ secrets.DOCKER_USERNAME }}/custom-nginx:${{ steps.vars.outputs.sha_short }}"'|' manifests/deployment.yaml
 
       # 配置 Git 用户信息
       - name: Set up Git config
