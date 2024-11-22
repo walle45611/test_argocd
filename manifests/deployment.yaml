@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
         - name: nginx
-          image: ""  # 留空，GitHub Actions 每次填入镜像
+          image: walle4561/custom-nginx:9ffaae3  # 留空，GitHub Actions 每次填入镜像
           ports:
             - containerPort: 80
