@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   name: nginx-ingress
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: / # 必須，用於根路徑處理
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
   - host: nginx.local
