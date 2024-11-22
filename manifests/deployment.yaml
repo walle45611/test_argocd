@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
         - name: nginx
-          image: walle4561/custom-nginx:de4fffb
+          image: walle4561/custom-nginx:53b6337
           ports:
             - containerPort: 80
