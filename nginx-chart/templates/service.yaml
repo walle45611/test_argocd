@@ -1,13 +1,18 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Release.Name }}-nginx-service
+  name: {{ .Release.Name }}-frontend-service
   namespace: {{ .Values.namespace }}
 spec:
   selector:
-    app: {{ .Release.Name }}-nginx
+    app: {{ .Release.Name }}-frontend
   ports:
-    - protocol: TCP
-      port: {{ .Values.service.port }}
+    - name: http
+      protocol: TCP
+      port: 80
       targetPort: 80
-  type: {{ .Values.service.type | default "ClusterIP" }}
+    - name: database
+      protocol: TCP
+      port: 5432
+      targetPort: 5432
+  type: ClusterIP
