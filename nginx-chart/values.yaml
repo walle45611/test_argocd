@@ -3,7 +3,7 @@ replicas: 3
 
 image:
   repository: walle4561/custom-nginx
-  tag: 0ed06a5
+  tag: 0f0d723
 
 ingress:
   ingressClassName: nginx
