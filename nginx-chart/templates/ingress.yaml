@@ -18,8 +18,3 @@ spec:
                 name: {{ .Release.Name }}-frontend-service
                 port:
                   number: {{ .Values.service.port }}
-  tcp:
-    5432:
-      service:
-        name: {{ .Release.Name }}-postgres-service
-        port: 5432
