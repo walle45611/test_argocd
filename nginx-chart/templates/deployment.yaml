@@ -18,14 +18,6 @@ spec:
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           ports:
             - containerPort: 80
-          volumeMounts:
-            - name: secret-env-file
-              mountPath: /root/.env
-              subPath: .env
-      volumes:
-        - name: secret-env-file
-          secret:
-            secretName: {{ .Release.Name }}-my-secret
-            items:
-              - key: env
-                path: .env
+          envFrom:
+            - secretRef:
+                name: {{ .Release.Name }}-my-secret
