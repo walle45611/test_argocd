@@ -1,0 +1,16 @@
+Your release is named {{ .Release.Name }}.
+
+To access the application, follow these steps:
+
+{{- if .Values.service.type }}
+- The service type is {{ .Values.service.type }}.
+{{- else }}
+- The service type is not defined; defaulting to ClusterIP.
+{{- end }}
+
+{{- if .Values.ingress.host }}
+- Access the application via Ingress at:
+  http://{{ .Values.ingress.host }}
+{{- else }}
+- No Ingress host defined.
+{{- end }}
