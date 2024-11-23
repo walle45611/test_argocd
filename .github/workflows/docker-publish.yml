@@ -40,12 +40,12 @@ jobs:
       # 更新 values.yaml 文件中的镜像信息
       - name: Update Helm values.yaml
         run: |
-          sed -i 's|repository: .*|repository: '"${{ secrets.DOCKER_USERNAME }}/custom-nginx"'|' charts/nginx-chart/values.yaml
-          sed -i 's|tag: .*|tag: '"${{ steps.vars.outputs.sha_short }}"'|' charts/nginx-chart/values.yaml
+          sed -i 's|repository: .*|repository: '"${{ secrets.DOCKER_USERNAME }}/custom-nginx"'|' nginx-chart/values.yaml
+          sed -i 's|tag: .*|tag: '"${{ steps.vars.outputs.sha_short }}"'|' nginx-chart/values.yaml
 
       # Debug: 确认 values.yaml 是否更新成功
       - name: Debug YAML Update
-        run: cat charts/nginx-chart/values.yaml
+        run: cat nginx-chart/values.yaml
 
       # 配置 Git 信息
       - name: Set up Git config
@@ -56,7 +56,7 @@ jobs:
       # 提交并推送更改到 GitHub
       - name: Commit and Push changes
         run: |
-          git add charts/nginx-chart/values.yaml
+          git add nginx-chart/values.yaml
           git diff --cached --quiet || git commit -m "Update Helm values to ${{ secrets.DOCKER_USERNAME }}/custom-nginx:${{ steps.vars.outputs.sha_short }}"
           git push origin main || echo "No changes to commit"
         env:
