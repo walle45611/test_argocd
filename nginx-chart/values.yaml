@@ -18,3 +18,8 @@ database:
 
 service:
   port: 80
+
+tcp:
+  enabled: true
+  ports:
+    5432: postgres-service:5432
