@@ -1,4 +1,4 @@
-namespace: test-argocd
+namespace: default
 replicas: 3
 
 image:
